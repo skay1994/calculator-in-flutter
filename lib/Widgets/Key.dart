@@ -5,7 +5,7 @@ import 'package:simple_calculator/Utils/Controller.dart';
 import 'package:simple_calculator/Utils/KeySymbol.dart';
 
 
-class Key extends StatelessWidget with Controller {
+class Key extends StatelessWidget {
 
   Key(this.symbol);
 
