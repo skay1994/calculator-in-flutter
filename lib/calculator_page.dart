@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rx_notifier/rx_notifier.dart';
 import 'package:simple_calculator/Widgets/Display.dart';
 import 'package:simple_calculator/Widgets/KeyPad.dart';
 import 'package:simple_calculator/Utils/Colors.dart' as CalColors;
