@@ -29,7 +29,7 @@ class Key extends StatelessWidget {
           child: Text(symbol.value, style: TextStyle(
             color: Colors.white
           )),
-          onPressed: () => {
+          onPressed: () => Controller.fire(symbol),
 
           },
         )
