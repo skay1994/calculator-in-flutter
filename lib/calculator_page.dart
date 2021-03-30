@@ -3,6 +3,7 @@ import 'package:rx_notifier/rx_notifier.dart';
 import 'package:simple_calculator/Widgets/Display.dart';
 import 'package:simple_calculator/Widgets/KeyPad.dart';
 import 'package:simple_calculator/Utils/Colors.dart' as CalColors;
+import 'package:simple_calculator/Utils/Controller.dart';
 
 class CalculatorPage extends StatefulWidget {
   @override
@@ -10,6 +11,11 @@ class CalculatorPage extends StatefulWidget {
 }
 
 class _CalculatorPageState extends State<CalculatorPage> {
+  static Controller controller = Controller();
+
+  _CalculatorPageState() {
+    controller.listen((dynamic symbol) => Controller.runHandler(symbol));
+  }
 
   @override
   Widget build(BuildContext context) {
