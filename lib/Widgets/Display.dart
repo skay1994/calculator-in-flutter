@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:rx_notifier/rx_notifier.dart';
 import 'package:simple_calculator/Utils/Controller.dart';
 
-class Display extends StatelessWidget with Controller {
+class Display extends StatelessWidget {
+  final Controller _controller = Controller.to;
 
-  Display(this.height);
-
-  final double height;
+  late final double height;
 
   double get _margin => (height / 10);
 
   final LinearGradient _gradient = const LinearGradient(colors: [ Colors.black26, Colors.black45 ]);
+
+  Display(this.height);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,7 @@ class Display extends StatelessWidget with Controller {
             constraints: BoxConstraints.expand(height: height - (_margin)),
             decoration: BoxDecoration(gradient: _gradient),
             child: RxBuilder(
-              builder: (_) => Text("${output.value}", style: style, textAlign: TextAlign.right,),
+              builder: (_) => Text("${_controller.currentValue.value}", style: style, textAlign: TextAlign.right,),
             )
         )
     );
