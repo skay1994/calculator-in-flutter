@@ -15,21 +15,23 @@ abstract class Keys {
       const KeySymbol('²√x', KeyType.FUNCTION, CalColors.dark_3); //
   static KeySymbol percent =
       const KeySymbol('%', KeyType.FUNCTION, CalColors.dark_3); //
-  static KeySymbol divide =
-      const KeySymbol('÷', KeyType.FUNCTION, CalColors.dark_3); // /
-  static KeySymbol multiply =
-      const KeySymbol('x', KeyType.FUNCTION, CalColors.dark_3); // /
-  static KeySymbol subtract =
-      const KeySymbol('-', KeyType.FUNCTION, CalColors.dark_3); // /
-  static KeySymbol add =
-      const KeySymbol('+', KeyType.FUNCTION, CalColors.dark_3); // /
   static KeySymbol backArrow =
       const KeySymbol('⇚', KeyType.FUNCTION, CalColors.dark_3); //
-
   static KeySymbol sign =
       const KeySymbol('+/-', KeyType.FUNCTION, CalColors.dark_2); //
   static KeySymbol decimal =
       const KeySymbol('.', KeyType.FUNCTION, CalColors.dark_2); //
+  static KeySymbol equals =
+      const KeySymbol('=', KeyType.FUNCTION, CalColors.dark_4); // /
+
+  static KeySymbol divide =
+      const KeySymbol('÷', KeyType.OPERATOR, CalColors.dark_3); // /
+  static KeySymbol multiply =
+      const KeySymbol('x', KeyType.OPERATOR, CalColors.dark_3); // /
+  static KeySymbol subtract =
+      const KeySymbol('-', KeyType.OPERATOR, CalColors.dark_3); // /
+  static KeySymbol add =
+      const KeySymbol('+', KeyType.OPERATOR, CalColors.dark_3); // /
 
   static KeySymbol zero =
       const KeySymbol('0', KeyType.INTEGER, CalColors.dark_2); // //
@@ -51,7 +53,4 @@ abstract class Keys {
       const KeySymbol('8', KeyType.INTEGER, CalColors.dark_2); // //
   static KeySymbol nine =
       const KeySymbol('9', KeyType.INTEGER, CalColors.dark_2); // //
-
-  static KeySymbol equals =
-      const KeySymbol('=', KeyType.FUNCTION, CalColors.dark_4); // /
 }
