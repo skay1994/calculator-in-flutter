@@ -30,8 +30,6 @@ class Key extends StatelessWidget {
             color: Colors.white
           )),
           onPressed: () => Controller.fire(symbol),
-
-          },
         )
     );
   }
