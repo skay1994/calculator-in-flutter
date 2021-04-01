@@ -1,8 +1,10 @@
+import 'Controller.dart';
 import 'KeySymbol.dart';
 import 'Keys.dart';
 
 class Functions {
   static Functions? _instance;
+  final Controller _controller = Controller.to;
 
   factory Functions() {
     if(_instance == null) {
