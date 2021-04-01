@@ -2,6 +2,20 @@ import 'KeySymbol.dart';
 import 'Keys.dart';
 
 class Functions {
+  static Functions? _instance;
+
+  factory Functions() {
+    if(_instance == null) {
+      _instance = Functions._newInstance();
+    }
+
+    return _instance!;
+  }
+
+  Functions._newInstance();
+
+  static Functions get to => Functions();
+
   static List<KeySymbol> _functions = [
     Keys.clear,
     Keys.sign,
