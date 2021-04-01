@@ -15,8 +15,6 @@ class Display extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle style = Theme.of(context).textTheme.headline3!
-        .copyWith(color: Colors.white, fontWeight: FontWeight.w200);
 
     return Container(
         padding: EdgeInsets.only(top: _margin, bottom: _margin),
@@ -26,9 +24,40 @@ class Display extends StatelessWidget {
             constraints: BoxConstraints.expand(height: height - (_margin)),
             decoration: BoxDecoration(gradient: _gradient),
             child: RxBuilder(
-              builder: (_) => Text("${_controller.currentValue.value}", style: style, textAlign: TextAlign.right,),
+              builder: (_) => Align(
+                alignment: Alignment.centerRight,
+                  child: renderValues(_)
+              ),
             )
         )
+    );
+  }
+
+  Widget renderValues(context) {
+    TextStyle style = Theme.of(context).textTheme.headline3!
+        .copyWith(color: Colors.white, fontWeight: FontWeight.w200);
+    TextStyle lastedStyle = Theme.of(context).textTheme.headline3!
+        .copyWith(color: Colors.white, fontWeight: FontWeight.w200);
+
+    final operation = _controller.operation.value;
+    final lastedValue = _controller.lastedValue.value;
+    final currentValue = _controller.currentValue.value;
+
+    if(!operation.isEmptyKey() && lastedValue.isNotEmpty) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Text(lastedValue, style: lastedStyle, textAlign: TextAlign.right),
+          Text(currentValue, style: style, textAlign: TextAlign.right)
+        ],
+      );
+    }
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Text(currentValue, style: style, textAlign: TextAlign.right)
+      ],
     );
   }
 }
