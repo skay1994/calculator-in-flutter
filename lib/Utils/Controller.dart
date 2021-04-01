@@ -12,10 +12,7 @@ class Controller {
   final RxNotifier<String> output = RxNotifier('');
   final RxNotifier<String> currentValue = RxNotifier('');
   final RxNotifier<String> lastedValue = RxNotifier('');
-  final RxNotifier operation = RxNotifier(null);
-
-  bool get _hasOperation => operation.value != null;
-
+  final RxNotifier<KeySymbol> operation = RxNotifier(KeySymbol.asEmpty());
   static final StreamController _controller = StreamController.broadcast();
 
   StreamSubscription listen(Function handler) => _controller.stream.listen(handler as dynamic);
@@ -34,6 +31,8 @@ class Controller {
 
   static Controller get to => new Controller();
 
+  static dispose() => _controller.close();
+
   static runHandler(KeySymbol symbol) {
     switch(symbol.type) {
       case KeyType.FUNCTION:
@@ -42,15 +41,41 @@ class Controller {
         return Controller._handleOperator(symbol);
       case KeyType.INTEGER:
         return Controller._handleInteger(symbol);
+      default:
+        return;
     }
-
   }
 
-  static dispose() => _controller.close();
+  static void _handleFunction(KeySymbol symbol) {
+    final controller = Controller.to;
+    final functions = Functions.to;
 
-  static void _handleFunction(KeySymbol symbol) {}
+    if(Functions.isFunction(symbol)) {
+      print(symbol);
+      print('is a _functions');
+    }
 
-  static void _handleOperator(KeySymbol symbol) {}
+    Map<KeySymbol, dynamic> table = {
+      Keys.clear: functions.clear,
+      Keys.equals: functions.equals,
+    };
+    table[symbol]();
+  }
+
+  static void _handleOperator(KeySymbol symbol) {
+    final functions = Functions.to;
+    final controller = Controller.to;
+
+    if(!controller.operation.value.isEmptyKey()) {
+      controller.lastedValue.value = functions.moundLastedValue();
+      controller.currentValue.value = '';
+      return;
+    }
+
+    controller.operation.value = symbol;
+    controller.lastedValue.value = functions.moundLastedValue();
+    controller.currentValue.value = '';
+  }
 
   static void _handleInteger(KeySymbol symbol) {
     final _controller = Controller.to;
