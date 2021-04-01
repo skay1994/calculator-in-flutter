@@ -23,7 +23,8 @@ class Functions {
     Keys.sign,
     Keys.percent,
     Keys.decimal,
-    Keys.ce
+    Keys.ce,
+    Keys.equals
   ];
 
   static List<KeySymbol> _operators = [
@@ -31,7 +32,6 @@ class Functions {
     Keys.multiply,
     Keys.subtract,
     Keys.add,
-    Keys.equals
   ];
 
   static List<KeySymbol> _notImplemented = [
