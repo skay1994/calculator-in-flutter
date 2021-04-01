@@ -5,6 +5,7 @@ import 'Keys.dart';
 class Functions {
   static Functions? _instance;
   final Controller _controller = Controller.to;
+  bool addEqualSymbol = false;
 
   factory Functions() {
     if(_instance == null) {
@@ -54,15 +55,59 @@ class Functions {
     Keys.nine
   ];
 
-  bool get isOperator => _operators.contains(this);
+  static bool isOperator(key) => _operators.contains(key);
 
-  bool get notImplemented => _notImplemented.contains(this);
+  static bool notImplemented(key) => _notImplemented.contains(key);
 
-  bool get isInteger => _integers.contains(this);
+  static bool isInteger(key) => _integers.contains(key);
 
-  bool get isFunction => _functions.contains(this);
+  static bool isFunction(key) => _functions.contains(key);
 
-  static void execute(currentValue, nextValue, operation) {
+  String execute() {
+    KeySymbol symbol = _controller.operation.value;
+    double lastedValueParsed = double.parse(_controller.lastedValue.value);
+    double currentValueParsed = double.parse(_controller.currentValue.value);
 
+    Map<KeySymbol, dynamic> table = {
+      Keys.divide: (a, b) => (a / b),
+      Keys.multiply: (a, b) => (a * b),
+      Keys.subtract: (a, b) => (a - b),
+      Keys.add: (a, b) => (a + b)
+    };
+
+    final result = table[symbol](lastedValueParsed, currentValueParsed);
+    addEqualSymbol = true;
+    return result.toString();
+  }
+
+  // Functions
+
+  void clear() {
+    _controller.output.value = '';
+    _controller.currentValue.value = '';
+    _controller.lastedValue.value = '';
+    _controller.operation.value = KeySymbol.asEmpty();
+    addEqualSymbol = false;
+  }
+
+  void equals(Controller controller) {
+    var result = execute();
+
+    addEqualSymbol = true;
+
+    _controller.output.value = '';
+    _controller.currentValue.value = result;
+    _controller.lastedValue.value = moundLastedValue();
+    _controller.operation.value = KeySymbol.asEmpty();
+  }
+
+  String moundLastedValue() {
+    var value = '${_controller.lastedValue.value} ${_controller.operation.value} ${_controller.currentValue.value}';
+
+    if(addEqualSymbol) {
+      value = value + '${Keys.equals.value} ';
+    }
+
+    return value;
   }
 }
