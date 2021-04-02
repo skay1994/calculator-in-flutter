@@ -40,14 +40,14 @@ class Display extends StatelessWidget {
         .copyWith(color: Colors.white, fontWeight: FontWeight.w200);
 
     final operation = _controller.operation.value;
-    final lastedValue = _controller.lastedValue.value;
+    final output = _controller.output.value;
     final currentValue = _controller.currentValue.value;
 
-    if(!operation.isEmptyKey() && lastedValue.isNotEmpty) {
+    if(!operation.isEmptyKey() && output.isNotEmpty) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          Text(lastedValue, style: lastedStyle, textAlign: TextAlign.right),
+          Text(output, style: lastedStyle, textAlign: TextAlign.right),
           Text(currentValue, style: style, textAlign: TextAlign.right)
         ],
       );
