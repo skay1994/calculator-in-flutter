@@ -8,7 +8,7 @@ class Functions {
   bool addEqualSymbol = false;
 
   factory Functions() {
-    if(_instance == null) {
+    if (_instance == null) {
       _instance = Functions._newInstance();
     }
 
@@ -21,10 +21,10 @@ class Functions {
 
   static List<KeySymbol> _functions = [
     Keys.clear,
-    Keys.sign,
-    Keys.percent,
-    Keys.decimal,
-    Keys.ce,
+    // Keys.sign,
+    // Keys.percent,
+    // Keys.decimal,
+    // Keys.ce,
     Keys.equals
   ];
 
@@ -39,7 +39,11 @@ class Functions {
     Keys.x1,
     Keys.elevateTwo,
     Keys.root2,
-    Keys.backArrow
+    Keys.backArrow,
+    Keys.sign,
+    Keys.percent,
+    Keys.decimal,
+    Keys.ce,
   ];
 
   static List<KeySymbol> _integers = [
@@ -57,17 +61,20 @@ class Functions {
 
   static bool isOperator(key) => _operators.contains(key);
 
-  static bool notImplemented(key) => _notImplemented.contains(key);
+  bool notImplemented(key) => _notImplemented.contains(key);
 
   static bool isInteger(key) => _integers.contains(key);
 
   static bool isFunction(key) => _functions.contains(key);
 
+  double get _lastedValue => _controller.lastedValue.value.isNotEmpty
+      ? double.parse(_controller.lastedValue.value) : 0;
+
+  double get _currentValue => _controller.currentValue.value.isNotEmpty
+      ? double.parse(_controller.currentValue.value) : 0;
+
   String execute() {
     KeySymbol symbol = _controller.operation.value;
-    double lastedValueParsed = double.parse(_controller.lastedValue.value);
-    double currentValueParsed = double.parse(_controller.currentValue.value);
-
     Map<KeySymbol, dynamic> table = {
       Keys.divide: (a, b) => (a / b),
       Keys.multiply: (a, b) => (a * b),
@@ -75,8 +82,17 @@ class Functions {
       Keys.add: (a, b) => (a + b)
     };
 
-    final result = table[symbol](lastedValueParsed, currentValueParsed);
+    final result = table[symbol](_lastedValue, _currentValue);
     addEqualSymbol = true;
+
+    print(_controller.lastedValue.value);
+    print('lastedValue');
+
+    print(_controller.output.value);
+
+    print(_controller.currentValue.value);
+    print('currentValue');
+
     return result.toString();
   }
 
@@ -90,24 +106,35 @@ class Functions {
     addEqualSymbol = false;
   }
 
-  void equals(Controller controller) {
-    var result = execute();
-
+  void equals() {
     addEqualSymbol = true;
 
-    _controller.output.value = '';
-    _controller.currentValue.value = result;
-    _controller.lastedValue.value = moundLastedValue();
+    _controller.currentValue.value = execute();
+    _controller.lastedValue.value = '';
+    _controller.output.value = mountOutput();
     _controller.operation.value = KeySymbol.asEmpty();
   }
 
-  String moundLastedValue() {
-    var value = '${_controller.lastedValue.value} ${_controller.operation.value} ${_controller.currentValue.value}';
+  void ce() {
+    _controller.currentValue.value = '';
+  }
 
+  String mountOutput() {
+    final lastedValue = _controller.lastedValue.value;
+    final operation = _controller.operation.value;
+    final currentValue = _controller.currentValue.value;
+    var output = '';
+
+    if (lastedValue.isEmpty) {
+      output += '$currentValue $operation';
+    }
+    if (lastedValue.isNotEmpty) {
+      output += ' $lastedValue';
+    }
     if(addEqualSymbol) {
-      value = value + '${Keys.equals.value} ';
+      output += ' ${Keys.equals.value}';
     }
 
-    return value;
+    return output;
   }
 }
