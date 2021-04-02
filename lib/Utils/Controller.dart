@@ -47,7 +47,6 @@ class Controller {
   }
 
   static void _handleFunction(KeySymbol symbol) {
-    final controller = Controller.to;
     final functions = Functions.to;
 
     if(Functions.isFunction(symbol)) {
@@ -66,27 +65,31 @@ class Controller {
     final functions = Functions.to;
     final controller = Controller.to;
 
-    if(!controller.operation.value.isEmptyKey()) {
-      controller.lastedValue.value = functions.moundLastedValue();
-      controller.currentValue.value = '';
+    if (!controller.operation.value.isEmptyKey() && symbol != controller.operation.value) {
+      controller.operation.value = symbol;
+      controller.output.value = functions.mountOutput();
       return;
     }
 
+    if(!controller.operation.value.isEmptyKey()) {
+      controller.lastedValue.value = functions.execute();
+    } else {
+      controller.lastedValue.value = controller.currentValue.value;
+    }
+
     controller.operation.value = symbol;
-    controller.lastedValue.value = functions.moundLastedValue();
+    controller.output.value = functions.mountOutput();
     controller.currentValue.value = '';
+
+    print(controller.lastedValue.value);
+    print('lastedValue.value');
+    print(functions.mountOutput());
+    print('functions.mountOutput()');
   }
 
   static void _handleInteger(KeySymbol symbol) {
     final _controller = Controller.to;
-    var value = _controller.currentValue.value;
-    var newValue = value + symbol.value;
-
-    if(value.isEmpty) {
-      newValue = symbol.value;
-    }
-
-    _controller.currentValue.value = newValue;
+    _controller.currentValue.value = _controller.currentValue.value + symbol.value;
   }
 
 }
